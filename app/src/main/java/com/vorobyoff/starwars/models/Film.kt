@@ -25,4 +25,9 @@ data class Film(
     val vehicles: List<String>,
     @SerializedName("species")
     val species: List<String>,
-)
+) : Comparable<Film> {
+    override fun compareTo(other: Film): Int {
+        if (episodeId > other.episodeId) return 1
+        return if (episodeId < other.episodeId) -1 else 0
+    }
+}

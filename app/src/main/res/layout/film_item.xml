@@ -4,52 +4,45 @@
     xmlns:tool="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
-    app:cardCornerRadius="10dp"
-    app:flow_verticalGap="8dp">
+    app:cardCornerRadius="16dp"
+    app:cardMaxElevation="4dp"
+    app:contentPadding="8dp">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/item_title_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@android:color/black"
             android:textSize="24sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             tool:text="Title of film" />
 
         <TextView
             android:id="@+id/episode_id_text_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:textColor="@android:color/black"
             android:textSize="20sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/item_title_text_view"
             tool:text="Number of episode" />
 
         <TextView
             android:id="@+id/director_text_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:textColor="@android:color/black"
             android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/episode_id_text_view"
             tool:text="Director's name" />
 
         <TextView
             android:id="@+id/producer_text_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:textColor="@android:color/black"
             android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/director_text_view"
-            app:layout_constraintTop_toBottomOf="@+id/director_text_view"
             tool:text="Producer's name" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 </androidx.cardview.widget.CardView>
