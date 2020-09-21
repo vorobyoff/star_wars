@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.vorobyoff.starwars.api.NetworkService
 import com.vorobyoff.starwars.databinding.ActivityMainBinding
+import com.vorobyoff.starwars.databinding.MainActionBarBinding
 import com.vorobyoff.starwars.models.Film
 import com.vorobyoff.starwars.models.FilmsResponse
 import retrofit2.Call
@@ -15,12 +16,11 @@ import retrofit2.Response
 class MainActivity : AppCompatActivity() {
     private lateinit var mainBinding: ActivityMainBinding
     private lateinit var filmAdapter: FilmAdapter
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mainBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(mainBinding.root)
-        setSupportActionBar(mainBinding.customToolbar)
+        setSupportActionBar(MainActionBarBinding.inflate(layoutInflater).root)
 
         filmAdapter = FilmAdapter()
         mainBinding.filmsRecyclerView.apply {
@@ -28,7 +28,6 @@ class MainActivity : AppCompatActivity() {
             hasFixedSize()
             adapter = filmAdapter
         }
-
         getFilms()
     }
 

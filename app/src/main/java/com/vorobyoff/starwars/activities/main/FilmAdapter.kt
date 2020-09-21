@@ -8,7 +8,6 @@ import com.vorobyoff.starwars.models.Film
 
 class FilmAdapter : RecyclerView.Adapter<FilmHolder>() {
     private val films = mutableListOf<Film>()
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         FilmHolder(FilmItemBinding.inflate(LayoutInflater.from(parent.context)))
 
@@ -22,6 +21,7 @@ class FilmAdapter : RecyclerView.Adapter<FilmHolder>() {
     }
 
     override fun getItemCount() = films.size
+
     fun update(data: List<Film>) {
         films.clear()
         films.addAll(data)
