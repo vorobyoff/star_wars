@@ -1,4 +1,4 @@
-package com.vorobyoff.starwars.activities.main
+package com.vorobyoff.starwars.activities.main.adapter
 
 import androidx.recyclerview.widget.RecyclerView
 import com.vorobyoff.starwars.databinding.FilmItemBinding
