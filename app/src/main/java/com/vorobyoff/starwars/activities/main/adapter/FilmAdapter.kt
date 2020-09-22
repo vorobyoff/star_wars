@@ -6,8 +6,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.vorobyoff.starwars.databinding.FilmItemBinding
 import com.vorobyoff.starwars.models.Film
 
-class FilmAdapter(private val listenerOn: OnClickListener) : RecyclerView.Adapter<FilmHolder>(),
-    OnClickListener {
+class FilmAdapter(private val onItemClickListener: OnItemClickListener) :
+    RecyclerView.Adapter<FilmHolder>(),
+    OnItemClickListener {
     private val films = mutableListOf<Film>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
@@ -21,14 +22,14 @@ class FilmAdapter(private val listenerOn: OnClickListener) : RecyclerView.Adapte
             films[position].producer
         )
         holder.itemView.setOnClickListener {
-            listenerOn.click(films[position].url)
+            onItemClickListener.onItemClick(films[position].url)
         }
     }
 
     override fun getItemCount() = films.size
 
-    override fun click(url: String) {
-        listenerOn.click(url)
+    override fun onItemClick(url: String) {
+        onItemClickListener.onItemClick(url)
     }
 
     fun update(data: List<Film>) {

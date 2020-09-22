@@ -10,6 +10,6 @@ interface SWApi {
     @GET("films/")
     fun getFilms(): Call<FilmsResponse>
 
-    @GET("{url}/")
+    @GET("{url}")
     fun getFilm(@Path("url") url: String): Call<Film>
 }

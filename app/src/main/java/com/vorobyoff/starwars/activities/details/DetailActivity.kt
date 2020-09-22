@@ -4,47 +4,29 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
-import com.vorobyoff.starwars.api.NetworkService
+import com.vorobyoff.starwars.activities.details.presenters.DetailPresenter
 import com.vorobyoff.starwars.databinding.ActivityDetailBinding
 import com.vorobyoff.starwars.models.Film
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class DetailActivity : AppCompatActivity() {
     private lateinit var detailBinding: ActivityDetailBinding
-
+    private lateinit var detailPresenter: DetailPresenter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         detailBinding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(detailBinding.root)
 
-        getFilm(intent.getStringExtra(URL_KEY))
+        detailPresenter = DetailPresenter(this)
+        intent.getStringExtra(URL_KEY)?.let { detailPresenter.show(it) }
     }
 
-    private fun getFilm(url: String?) {
-        val validUrl = url?.let {
-            val lastIndex = it.lastIndexOf("films/")
-            it.substring(lastIndex)
-        } ?: "Error!"
-
-        NetworkService.getSWApi()?.getFilm(validUrl)?.enqueue(object : Callback<Film> {
-            override fun onResponse(call: Call<Film>, response: Response<Film>) {
-                if (response.isSuccessful) {
-                    val film = response.body()
-                    detailBinding.titleTextView.text = film?.title
-                    detailBinding.episodeIdTextView.text = film?.episodeId.toString()
-                    detailBinding.directorTextView.text = film?.director
-                    detailBinding.producerTextView.text = film?.producer
-                    detailBinding.releaseDateTextView.text = film?.releaseDate
-                    detailBinding.openingCrawlTextView.text = film?.openingCrawl
-                }
-            }
-
-            override fun onFailure(call: Call<Film>, t: Throwable) =
-                Toast.makeText(this@DetailActivity, "Error!", Toast.LENGTH_SHORT).show()
-        })
+    fun show(film: Film) {
+        detailBinding.titleTextView.text = film.title
+        detailBinding.episodeIdTextView.text = film.episodeId.toString()
+        detailBinding.directorTextView.text = film.director
+        detailBinding.producerTextView.text = film.producer
+        detailBinding.releaseDateTextView.text = film.releaseDate
+        detailBinding.openingCrawlTextView.text = film.openingCrawl
     }
 
     companion object {

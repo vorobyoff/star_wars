@@ -7,10 +7,10 @@ data class FilmHolder(val itemBinding: FilmItemBinding) :
     RecyclerView.ViewHolder(itemBinding.root) {
     fun bind(title: String, episodeId: Int, director: String, producer: String) {
         itemBinding.apply {
-            this.itemTitleTextView.text = title
-            this.episodeIdTextView.text = episodeId.toString()
-            this.directorTextView.text = director
-            this.producerTextView.text = producer
+            itemTitleTextView.text = title
+            episodeIdTextView.text = episodeId.toString()
+            directorTextView.text = director
+            producerTextView.text = producer
         }
     }
 }
