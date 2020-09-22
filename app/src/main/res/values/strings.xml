@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">StarWars</string>
     <string name="logo">logo</string>
+    <string name="episode">Episode</string>
+    <string name="director">Directors:</string>
+    <string name="producer">Producers:</string>
+    <string name="realise_date">Realise date:</string>
 </resources>

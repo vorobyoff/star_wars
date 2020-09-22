@@ -22,10 +22,10 @@ class DetailActivity : AppCompatActivity() {
 
     fun show(film: Film) {
         detailBinding.titleTextView.text = film.title
-        detailBinding.episodeIdTextView.text = film.episodeId.toString()
-        detailBinding.directorTextView.text = film.director
-        detailBinding.producerTextView.text = film.producer
-        detailBinding.releaseDateTextView.text = film.releaseDate
+        detailBinding.episodeIdTextView.append(" ${film.episodeId}")
+        detailBinding.directorTextView.append(" ${film.director}")
+        detailBinding.producerTextView.append(" ${film.producer}")
+        detailBinding.releaseDateTextView.append(" ${film.releaseDate}")
         detailBinding.openingCrawlTextView.text = film.openingCrawl
     }
 

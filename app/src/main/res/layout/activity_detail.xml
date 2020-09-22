@@ -20,33 +20,33 @@
         android:id="@+id/episode_id_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text="@string/episode"
         android:textColor="@android:color/black"
-        android:textSize="20sp"
-        tools:text="Episode" />
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/director_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text="@string/director"
         android:textColor="@android:color/black"
-        android:textSize="20sp"
-        tools:text="Director" />
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/producer_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text="@string/producer"
         android:textColor="@android:color/black"
-        android:textSize="20sp"
-        tools:text="Producer" />
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/release_date_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text="@string/realise_date"
         android:textColor="@android:color/black"
-        android:textSize="20sp"
-        tools:text="Date" />
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/opening_crawl_text_view"
