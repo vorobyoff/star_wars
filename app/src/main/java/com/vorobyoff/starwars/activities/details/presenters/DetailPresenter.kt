@@ -13,7 +13,6 @@ class DetailPresenter(private val activity: DetailActivity) : Presenter {
             val lastIndex = it.lastIndexOf("films/")
             it.substring(lastIndex)
         }
-
         NetworkService.getSWApi()?.getFilm(validUrl)?.enqueue(object : Callback<Film> {
             override fun onResponse(call: Call<Film>, response: Response<Film>) {
                 if (response.isSuccessful) {

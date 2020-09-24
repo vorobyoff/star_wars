@@ -12,7 +12,7 @@ class FilmAdapter(private val onItemClickListener: OnItemClickListener) :
     private val films = mutableListOf<Film>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        FilmHolder(FilmItemBinding.inflate(LayoutInflater.from(parent.context)))
+        FilmHolder(FilmItemBinding.inflate(LayoutInflater.from(parent.context), parent, false))
 
     override fun onBindViewHolder(holder: FilmHolder, position: Int) {
         holder.bind(

@@ -22,8 +22,7 @@ class MainPresenter(private val activity: MainActivity) : Presenter {
                 }
             }
 
-            override fun onFailure(call: Call<FilmsResponse>, t: Throwable) {
-            }
+            override fun onFailure(call: Call<FilmsResponse>, t: Throwable) {}
         })
     }
 }

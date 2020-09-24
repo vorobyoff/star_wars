@@ -1,32 +1,37 @@
 package com.vorobyoff.starwars.models
 
+import androidx.annotation.NonNull
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
+@Entity(tableName = "films_table")
 data class Film(
     @SerializedName("title")
-    val title: String,
+    @PrimaryKey @NonNull @ColumnInfo(name = "film_title") var title: String,
     @SerializedName("episode_id")
-    val episodeId: Int,
+    @ColumnInfo(name = "episode_id") var episodeId: Int,
     @SerializedName("opening_crawl")
-    val openingCrawl: String,
+    @ColumnInfo(name = "opening_crawl") var openingCrawl: String,
     @SerializedName("director")
-    val director: String,
+    @ColumnInfo(name = "director") var director: String,
     @SerializedName("producer")
-    val producer: String,
+    @ColumnInfo(name = "producer") var producer: String,
     @SerializedName("release_date")
-    val releaseDate: String,
+    @ColumnInfo(name = "realise_date") var releaseDate: String,
     @SerializedName("characters")
-    val characters: List<String>,
+    var characters: List<String>,
     @SerializedName("planets")
-    val planets: List<String>,
+    var planets: List<String>,
     @SerializedName("starships")
-    val starShips: List<String>,
+    var starShips: List<String>,
     @SerializedName("vehicles")
-    val vehicles: List<String>,
+    var vehicles: List<String>,
     @SerializedName("species")
-    val species: List<String>,
+    var species: List<String>,
     @SerializedName("url")
-    val url: String,
+    var url: String,
 ) : Comparable<Film> {
     override fun compareTo(other: Film): Int {
         if (episodeId > other.episodeId) return 1
