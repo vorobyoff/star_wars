@@ -2,7 +2,6 @@ package com.vorobyoff.starwars.activities.main
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.PersistableBundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.vorobyoff.starwars.activities.details.DetailActivity
 import com.vorobyoff.starwars.activities.main.adapter.OnItemClickListener
@@ -33,12 +32,6 @@ class MainActivity : AppCompatActivity(), OnItemClickListener, MainView {
             hasFixedSize()
         }
         mainPresenter.getFilms()
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        outState.run {
-        }
-        super.onSaveInstanceState(outState)
     }
 
     override fun onItemClick(url: String) {
