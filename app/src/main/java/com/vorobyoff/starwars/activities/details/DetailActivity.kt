@@ -4,30 +4,31 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.vorobyoff.starwars.activities.details.presenters.DetailPresenter
+import com.vorobyoff.starwars.activities.details.presenters.DetailPresenterImpl
+import com.vorobyoff.starwars.activities.details.presenters.DetailView
 import com.vorobyoff.starwars.databinding.ActivityDetailBinding
 import com.vorobyoff.starwars.models.Film
 
-class DetailActivity : AppCompatActivity() {
+class DetailActivity : AppCompatActivity(), DetailView {
     private lateinit var detailBinding: ActivityDetailBinding
-    private lateinit var detailPresenter: DetailPresenter
+    private val detailPresenterImpl = DetailPresenterImpl()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         detailBinding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(detailBinding.root)
 
-        detailPresenter = DetailPresenter(this)
-        intent.getStringExtra(URL_KEY)?.let { detailPresenter.show(it) }
+        detailPresenterImpl.attachView(this)
+        intent.getStringExtra(URL_KEY)?.let { detailPresenterImpl.getFilm(it) }
     }
 
-    fun show(film: Film) {
-        detailBinding.titleTextView.text = film.title
-        detailBinding.episodeIdTextView.append(" ${film.episodeId}")
-        detailBinding.directorTextView.append(" ${film.director}")
-        detailBinding.producerTextView.append(" ${film.producer}")
-        detailBinding.releaseDateTextView.append(" ${film.releaseDate}")
-        detailBinding.openingCrawlTextView.text = film.openingCrawl
+    override fun showFilm(film: Film) = detailBinding.run {
+        titleTextView.text = film.title
+        episodeIdTextView.append(" ${film.episodeId}")
+        directorTextView.append(" ${film.director}")
+        producerTextView.append(" ${film.producer}")
+        releaseDateTextView.append(" ${film.releaseDate}")
+        openingCrawlTextView.text = film.openingCrawl
     }
 
     companion object {

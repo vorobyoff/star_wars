@@ -1,15 +1,17 @@
 package com.vorobyoff.starwars.activities.main.presenters
 
-import com.vorobyoff.starwars.activities.main.MainActivity
 import com.vorobyoff.starwars.api.NetworkService
 import com.vorobyoff.starwars.models.Film
 import com.vorobyoff.starwars.models.FilmsResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.lang.ref.WeakReference
 
-class MainPresenter(private val activity: MainActivity) : Presenter {
-    override fun update() {
+class MainPresenterImpl : MainPresenter {
+    private var viewState: WeakReference<MainView>? = null
+
+    override fun getFilms() {
         val films = mutableListOf<Film>()
 
         NetworkService.getSWApi()?.getFilms()?.enqueue(object : Callback<FilmsResponse> {
@@ -18,11 +20,15 @@ class MainPresenter(private val activity: MainActivity) : Presenter {
                     val filmsResponse = response.body()
                     filmsResponse?.let { r -> r.results.forEach { films += it } }
                     films.sort()
-                    activity.update(films)
+                    viewState?.get()?.setFilms(films)
                 }
             }
 
             override fun onFailure(call: Call<FilmsResponse>, t: Throwable) {}
         })
+    }
+
+    fun attachView(view: MainView) {
+        viewState = WeakReference(view)
     }
 }

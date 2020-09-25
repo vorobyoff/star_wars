@@ -2,20 +2,21 @@ package com.vorobyoff.starwars.activities.main
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.PersistableBundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.vorobyoff.starwars.activities.details.DetailActivity
 import com.vorobyoff.starwars.activities.main.adapter.OnItemClickListener
 import com.vorobyoff.starwars.activities.main.adapter.FilmAdapter
-import com.vorobyoff.starwars.activities.main.presenters.MainPresenter
-import com.vorobyoff.starwars.activities.main.presenters.Presenter
+import com.vorobyoff.starwars.activities.main.presenters.MainPresenterImpl
+import com.vorobyoff.starwars.activities.main.presenters.MainView
 import com.vorobyoff.starwars.databinding.ActivityMainBinding
 import com.vorobyoff.starwars.databinding.MainActionBarBinding
 import com.vorobyoff.starwars.models.Film
 
-class MainActivity : AppCompatActivity(), OnItemClickListener {
+class MainActivity : AppCompatActivity(), OnItemClickListener, MainView {
+    private val mainPresenter = MainPresenterImpl()
     private lateinit var mainBinding: ActivityMainBinding
     private lateinit var filmAdapter: FilmAdapter
-    private lateinit var mainPresenter: Presenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,7 +24,7 @@ class MainActivity : AppCompatActivity(), OnItemClickListener {
         setContentView(mainBinding.root)
         setSupportActionBar(MainActionBarBinding.inflate(layoutInflater).root)
 
-        mainPresenter = MainPresenter(this)
+        mainPresenter.attachView(this)
         filmAdapter = FilmAdapter(this)
         mainBinding.filmsRecyclerView.apply {
             layoutManager = LinearLayoutManager(this@MainActivity)
@@ -31,15 +32,20 @@ class MainActivity : AppCompatActivity(), OnItemClickListener {
             adapter = filmAdapter
             hasFixedSize()
         }
-        mainPresenter.update()
+        mainPresenter.getFilms()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.run {
+        }
+        super.onSaveInstanceState(outState)
     }
 
     override fun onItemClick(url: String) {
-        intent = DetailActivity.showDetail(this@MainActivity, url)
-        startActivityForResult(intent, 1)
+        startActivity(DetailActivity.showDetail(this, url))
     }
 
-    fun update(films: List<Film>) {
+    override fun setFilms(films: List<Film>) {
         filmAdapter.update(films)
     }
 }
