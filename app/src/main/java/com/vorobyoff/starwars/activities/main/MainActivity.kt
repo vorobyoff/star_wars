@@ -3,6 +3,7 @@ package com.vorobyoff.starwars.activities.main
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.vorobyoff.starwars.activities.details.DetailActivity
 import com.vorobyoff.starwars.activities.main.adapter.OnItemClickListener
 import com.vorobyoff.starwars.activities.main.adapter.FilmAdapter
@@ -13,9 +14,9 @@ import com.vorobyoff.starwars.databinding.MainActionBarBinding
 import com.vorobyoff.starwars.models.Film
 
 class MainActivity : AppCompatActivity(), OnItemClickListener, MainView {
+    private val filmAdapter = FilmAdapter(this)
     private val mainPresenter = MainPresenterImpl()
     private lateinit var mainBinding: ActivityMainBinding
-    private lateinit var filmAdapter: FilmAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,9 +25,8 @@ class MainActivity : AppCompatActivity(), OnItemClickListener, MainView {
         setSupportActionBar(MainActionBarBinding.inflate(layoutInflater).root)
 
         mainPresenter.attachView(this)
-        filmAdapter = FilmAdapter(this)
         mainBinding.filmsRecyclerView.apply {
-            layoutManager = LinearLayoutManager(this@MainActivity)
+            layoutManager = LinearLayoutManager(this@MainActivity, RecyclerView.VERTICAL, false)
             addItemDecoration(ItemDecoration(8))
             adapter = filmAdapter
             hasFixedSize()
@@ -39,6 +39,6 @@ class MainActivity : AppCompatActivity(), OnItemClickListener, MainView {
     }
 
     override fun setFilms(films: List<Film>) {
-        filmAdapter.update(films)
+        filmAdapter.setFilms(films)
     }
 }
