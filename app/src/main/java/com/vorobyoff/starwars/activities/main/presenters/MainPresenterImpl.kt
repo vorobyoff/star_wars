@@ -10,10 +10,9 @@ import java.lang.ref.WeakReference
 
 class MainPresenterImpl : MainPresenter {
     private var viewState: WeakReference<MainView>? = null
+    private val films = mutableListOf<Film>()
 
     override fun getFilms() {
-        val films = mutableListOf<Film>()
-
         NetworkService.getSWApi()?.getFilms()?.enqueue(object : Callback<FilmsResponse> {
             override fun onResponse(call: Call<FilmsResponse>, response: Response<FilmsResponse>) {
                 if (response.isSuccessful) {
@@ -26,6 +25,9 @@ class MainPresenterImpl : MainPresenter {
 
             override fun onFailure(call: Call<FilmsResponse>, t: Throwable) {}
         })
+    }
+
+    override fun saveFilm(film: Film) {
     }
 
     fun attachView(view: MainView) {

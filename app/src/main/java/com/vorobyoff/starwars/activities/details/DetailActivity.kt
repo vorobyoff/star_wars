@@ -19,10 +19,10 @@ class DetailActivity : AppCompatActivity(), DetailView {
         setContentView(detailBinding.root)
 
         detailPresenterImpl.attachView(this)
-        intent.getStringExtra(URL_KEY)?.let { detailPresenterImpl.getFilm(it) }
+        intent.getStringExtra(URL_KEY)?.let { detailPresenterImpl.getData(it) }
     }
 
-    override fun showFilm(film: Film) = detailBinding.run {
+    override fun show(film: Film) = detailBinding.run {
         titleTextView.text = film.title
         episodeIdTextView.append(" ${film.episodeId}")
         directorTextView.append(" ${film.director}")
@@ -33,7 +33,6 @@ class DetailActivity : AppCompatActivity(), DetailView {
 
     companion object {
         private const val URL_KEY = "url_key"
-
         fun showDetail(context: Context, url: String): Intent {
             val intent = Intent(context, DetailActivity::class.java)
             return intent.putExtra(URL_KEY, url)

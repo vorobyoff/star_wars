@@ -6,29 +6,28 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.vorobyoff.starwars.activities.details.DetailActivity
-import com.vorobyoff.starwars.activities.main.adapter.OnItemClickListener
-import com.vorobyoff.starwars.activities.main.adapter.FilmAdapter
-import com.vorobyoff.starwars.activities.main.adapter.SwipeToSaveFilmCallback
+import com.vorobyoff.starwars.activities.main.adapters.FilmAdapter
+import com.vorobyoff.starwars.activities.main.adapters.ItemTouchHelperCallback
 import com.vorobyoff.starwars.activities.main.presenters.MainPresenterImpl
 import com.vorobyoff.starwars.activities.main.presenters.MainView
 import com.vorobyoff.starwars.databinding.ActivityMainBinding
 import com.vorobyoff.starwars.databinding.MainActionBarBinding
 import com.vorobyoff.starwars.models.Film
-import com.vorobyoff.starwars.repository.FilmRepositoryImpl
 
-class MainActivity : AppCompatActivity(), OnItemClickListener, MainView {
-    private val filmAdapter = FilmAdapter(this)
-    private val itemTouchHelper = ItemTouchHelper(SwipeToSaveFilmCallback(filmAdapter))
-    private val filmRepositoryImpl = FilmRepositoryImpl()
-    private val mainPresenter = MainPresenterImpl()
+class MainActivity : AppCompatActivity(), MainView {
     private lateinit var mainBinding: ActivityMainBinding
+    private val mainPresenter = MainPresenterImpl()
+    private val filmAdapter = FilmAdapter(
+        { startActivity(DetailActivity.showDetail(this, url = it)) },
+        { mainPresenter.saveFilm(film = it) })
+    private val itemTouchHelper = ItemTouchHelper(ItemTouchHelperCallback(filmAdapter))
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mainBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(mainBinding.root)
-        setSupportActionBar(MainActionBarBinding.inflate(layoutInflater).root)
 
+        setSupportActionBar(MainActionBarBinding.inflate(layoutInflater).root)
         mainPresenter.attachView(this)
         mainBinding.filmsRecyclerView.apply {
             layoutManager = LinearLayoutManager(this@MainActivity, RecyclerView.VERTICAL, false)
@@ -40,11 +39,5 @@ class MainActivity : AppCompatActivity(), OnItemClickListener, MainView {
         mainPresenter.getFilms()
     }
 
-    override fun onItemClick(url: String) {
-        startActivity(DetailActivity.showDetail(this@MainActivity, url))
-    }
-
-    override fun setFilms(films: List<Film>) {
-        filmAdapter.setFilms(films)
-    }
+    override fun setFilms(films: List<Film>) = filmAdapter.setFilms(films)
 }

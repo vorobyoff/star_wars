@@ -10,14 +10,14 @@ import java.lang.ref.WeakReference
 class DetailPresenterImpl : DetailPresenter {
     private var viewState: WeakReference<DetailView>? = null
 
-    override fun getFilm(url: String) {
+    override fun getData(url: String) {
         val validUrl = urlValidator(url)
 
         NetworkService.getSWApi()?.getFilm(validUrl)?.enqueue(object : Callback<Film> {
             override fun onResponse(call: Call<Film>, response: Response<Film>) {
                 if (response.isSuccessful) {
                     val film = response.body()
-                    if (film != null) viewState?.get()?.showFilm(film)
+                    if (film != null) viewState?.get()?.show(film)
                 }
             }
 
