@@ -2,19 +2,24 @@ package com.vorobyoff.starwars.activities.main
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.vorobyoff.starwars.activities.details.DetailActivity
 import com.vorobyoff.starwars.activities.main.adapter.OnItemClickListener
 import com.vorobyoff.starwars.activities.main.adapter.FilmAdapter
+import com.vorobyoff.starwars.activities.main.adapter.SwipeToSaveFilmCallback
 import com.vorobyoff.starwars.activities.main.presenters.MainPresenterImpl
 import com.vorobyoff.starwars.activities.main.presenters.MainView
 import com.vorobyoff.starwars.databinding.ActivityMainBinding
 import com.vorobyoff.starwars.databinding.MainActionBarBinding
 import com.vorobyoff.starwars.models.Film
+import com.vorobyoff.starwars.repository.FilmRepositoryImpl
 
 class MainActivity : AppCompatActivity(), OnItemClickListener, MainView {
     private val filmAdapter = FilmAdapter(this)
+    private val itemTouchHelper = ItemTouchHelper(SwipeToSaveFilmCallback(filmAdapter))
+    private val filmRepositoryImpl = FilmRepositoryImpl()
     private val mainPresenter = MainPresenterImpl()
     private lateinit var mainBinding: ActivityMainBinding
 
@@ -27,6 +32,7 @@ class MainActivity : AppCompatActivity(), OnItemClickListener, MainView {
         mainPresenter.attachView(this)
         mainBinding.filmsRecyclerView.apply {
             layoutManager = LinearLayoutManager(this@MainActivity, RecyclerView.VERTICAL, false)
+            itemTouchHelper.attachToRecyclerView(this)
             addItemDecoration(ItemDecoration(8))
             adapter = filmAdapter
             hasFixedSize()
@@ -35,7 +41,7 @@ class MainActivity : AppCompatActivity(), OnItemClickListener, MainView {
     }
 
     override fun onItemClick(url: String) {
-        startActivity(DetailActivity.showDetail(this, url))
+        startActivity(DetailActivity.showDetail(this@MainActivity, url))
     }
 
     override fun setFilms(films: List<Film>) {

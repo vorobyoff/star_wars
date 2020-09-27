@@ -11,6 +11,7 @@ class FilmAdapter(private val onItemClickListener: OnItemClickListener) :
     RecyclerView.Adapter<FilmHolder>(),
     OnItemClickListener {
     private val films: MutableList<Film> = LinkedList()
+    var swipedFilm: Film? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         FilmHolder(FilmItemBinding.inflate(LayoutInflater.from(parent.context), parent, false))
@@ -22,6 +23,7 @@ class FilmAdapter(private val onItemClickListener: OnItemClickListener) :
             films[position].director,
             films[position].producer
         )
+
         holder.itemView.setOnClickListener {
             onItemClickListener.onItemClick(films[position].url)
         }
@@ -31,6 +33,10 @@ class FilmAdapter(private val onItemClickListener: OnItemClickListener) :
 
     override fun onItemClick(url: String) {
         onItemClickListener.onItemClick(url)
+    }
+
+    fun save(position: Int) {
+        swipedFilm = films[position]
     }
 
     fun setFilms(data: List<Film>) {
