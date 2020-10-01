@@ -1,7 +1,7 @@
 package com.vorobyoff.starwars.activities.main.presenters
 
+import android.content.Context
 import androidx.lifecycle.LiveData
-import com.vorobyoff.starwars.App
 import com.vorobyoff.starwars.api.NetworkService
 import com.vorobyoff.starwars.models.Film
 import com.vorobyoff.starwars.models.FilmsResponse
@@ -16,13 +16,13 @@ import retrofit2.Callback
 import retrofit2.Response
 
 @InjectViewState
-class MainPresenter : MvpPresenter<MainView>() {
+class MainPresenter(context: Context) : MvpPresenter<MainView>() {
     private val films = mutableListOf<Film>()
     private val repository: FilmRepository
     val favoriteFilms: LiveData<List<Film>>
 
     init {
-        val dao = FilmRoomDatabase.getDatabase(App().applicationContext).filmDao()
+        val dao = FilmRoomDatabase.getDatabase(context).filmDao()
         repository = FilmRepository(dao)
         favoriteFilms = repository.data
     }

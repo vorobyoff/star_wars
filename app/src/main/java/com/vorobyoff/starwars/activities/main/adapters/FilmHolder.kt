@@ -6,12 +6,10 @@ import com.vorobyoff.starwars.models.Film
 
 data class FilmHolder(val itemBinding: FilmItemBinding) :
     RecyclerView.ViewHolder(itemBinding.root) {
-    fun bind(film: Film) {
-        itemBinding.apply {
-            itemTitleTextView.text = film.title
-            episodeIdTextView.text = film.episodeId.toString()
-            directorTextView.text = film.director
-            producerTextView.text = film.producer
-        }
+    fun bind(film: Film) = itemBinding.apply {
+        itemTitleTextView.text = film.title
+        episodeIdTextView.text = film.episodeId.toString()
+        directorTextView.text = film.director
+        producerTextView.text = film.producer
     }
 }

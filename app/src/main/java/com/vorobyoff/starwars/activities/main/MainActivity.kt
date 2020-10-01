@@ -14,10 +14,15 @@ import com.vorobyoff.starwars.databinding.MainActionBarBinding
 import com.vorobyoff.starwars.models.Film
 import moxy.MvpAppCompatActivity
 import moxy.presenter.InjectPresenter
+import moxy.presenter.ProvidePresenter
 
 class MainActivity : MvpAppCompatActivity(), MainView {
     @InjectPresenter
     lateinit var mainPresenter: MainPresenter
+
+    @ProvidePresenter
+    fun provideMainPresenter(): MainPresenter = MainPresenter(this@MainActivity)
+
     private lateinit var mainBinding: ActivityMainBinding
     private val filmAdapter = FilmAdapter(
         { startActivity(DetailActivity.showDetail(this, url = it)) },
@@ -38,7 +43,7 @@ class MainActivity : MvpAppCompatActivity(), MainView {
             hasFixedSize()
         }
         mainPresenter.getFilms()
-        mainBinding.favoriteFilmsButton.setOnClickListener { }
+        mainBinding.favoriteFilmsButton.setOnClickListener {}
     }
 
     override fun setFilms(films: List<Film>) = filmAdapter.setFilms(films)
