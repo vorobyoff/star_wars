@@ -1,6 +1,5 @@
 package com.vorobyoff.starwars.activities.main
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -8,15 +7,18 @@ import androidx.recyclerview.widget.RecyclerView
 import com.vorobyoff.starwars.activities.details.DetailActivity
 import com.vorobyoff.starwars.activities.main.adapters.FilmAdapter
 import com.vorobyoff.starwars.activities.main.adapters.ItemTouchHelperCallback
-import com.vorobyoff.starwars.activities.main.presenters.MainPresenterImpl
+import com.vorobyoff.starwars.activities.main.presenters.MainPresenter
 import com.vorobyoff.starwars.activities.main.presenters.MainView
 import com.vorobyoff.starwars.databinding.ActivityMainBinding
 import com.vorobyoff.starwars.databinding.MainActionBarBinding
 import com.vorobyoff.starwars.models.Film
+import moxy.MvpAppCompatActivity
+import moxy.presenter.InjectPresenter
 
-class MainActivity : AppCompatActivity(), MainView {
+class MainActivity : MvpAppCompatActivity(), MainView {
+    @InjectPresenter
+    lateinit var mainPresenter: MainPresenter
     private lateinit var mainBinding: ActivityMainBinding
-    private val mainPresenter = MainPresenterImpl()
     private val filmAdapter = FilmAdapter(
         { startActivity(DetailActivity.showDetail(this, url = it)) },
         { mainPresenter.saveFilm(film = it) })
@@ -28,7 +30,6 @@ class MainActivity : AppCompatActivity(), MainView {
         setContentView(mainBinding.root)
 
         setSupportActionBar(MainActionBarBinding.inflate(layoutInflater).root)
-        mainPresenter.attachView(this)
         mainBinding.filmsRecyclerView.apply {
             layoutManager = LinearLayoutManager(this@MainActivity, RecyclerView.VERTICAL, false)
             itemTouchHelper.attachToRecyclerView(this)
@@ -37,6 +38,7 @@ class MainActivity : AppCompatActivity(), MainView {
             hasFixedSize()
         }
         mainPresenter.getFilms()
+        mainBinding.favoriteFilmsButton.setOnClickListener { }
     }
 
     override fun setFilms(films: List<Film>) = filmAdapter.setFilms(films)

@@ -12,6 +12,7 @@ class FilmAdapter(
     private val onItemSwipe: (film: Film) -> Unit
 ) : RecyclerView.Adapter<FilmHolder>(), ItemTouchHelperAdapter {
     private val films: MutableList<Film> = LinkedList()
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         FilmHolder(FilmItemBinding.inflate(LayoutInflater.from(parent.context), parent, false))
 
@@ -22,7 +23,10 @@ class FilmAdapter(
 
     override fun getItemCount() = films.count()
 
-    override fun onItemTouch(position: Int) = onItemSwipe(films[position])
+    override fun onItemTouch(position: Int) {
+        onItemSwipe(films[position])
+        notifyItemChanged(position)
+    }
 
     fun setFilms(data: List<Film>) {
         films.clear()

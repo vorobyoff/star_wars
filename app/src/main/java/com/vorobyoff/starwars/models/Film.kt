@@ -8,28 +8,28 @@ import com.google.gson.annotations.SerializedName
 
 @Entity(tableName = "films_table")
 data class Film(
-    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "id") @PrimaryKey(autoGenerate = true) var id: Int = 0,
 
     @SerializedName("title")
-    @ColumnInfo(name = "title") val title: String,
+    @ColumnInfo(name = "title") var title: String = "",
 
     @SerializedName("episode_id")
-    @ColumnInfo(name = "episode_id") val episodeId: Int,
+    @ColumnInfo(name = "episode_id") var episodeId: Int = 0,
 
     @SerializedName("director")
-    @ColumnInfo(name = "director") val director: String,
+    @ColumnInfo(name = "director") var director: String = "",
 
     @SerializedName("producer")
-    @ColumnInfo(name = "producer") val producer: String,
+    @ColumnInfo(name = "producer") var producer: String = "",
 
     @SerializedName("release_date")
-    @ColumnInfo(name = "realise_date") val releaseDate: String,
+    @ColumnInfo(name = "realise_date") var releaseDate: String = "",
 
     @ColumnInfo(name = "url")
-    @SerializedName("url") val url: String,
+    @SerializedName("url") var url: String = "",
 
     @SerializedName("opening_crawl")
-    @Ignore val openingCrawl: String,
+    @Ignore val openingCrawl: String = "",
 ) : Comparable<Film> {
     override fun compareTo(other: Film): Int {
         if (episodeId > other.episodeId) return 1

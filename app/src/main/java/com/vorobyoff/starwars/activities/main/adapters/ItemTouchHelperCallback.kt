@@ -20,5 +20,4 @@ class ItemTouchHelperCallback(private val adapter: FilmAdapter) : ItemTouchHelpe
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) =
         adapter.onItemTouch(viewHolder.adapterPosition)
-
 }

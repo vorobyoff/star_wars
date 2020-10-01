@@ -2,24 +2,24 @@ package com.vorobyoff.starwars.activities.details
 
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.vorobyoff.starwars.activities.details.presenters.DetailPresenterImpl
+import com.vorobyoff.starwars.activities.details.presenters.DetailPresenter
 import com.vorobyoff.starwars.activities.details.presenters.DetailView
 import com.vorobyoff.starwars.databinding.ActivityDetailBinding
 import com.vorobyoff.starwars.models.Film
+import moxy.MvpAppCompatActivity
+import moxy.presenter.InjectPresenter
 
-class DetailActivity : AppCompatActivity(), DetailView {
+class DetailActivity : MvpAppCompatActivity(), DetailView {
+    @InjectPresenter
+    lateinit var detailPresenter: DetailPresenter
     private lateinit var detailBinding: ActivityDetailBinding
-    private val detailPresenterImpl = DetailPresenterImpl()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         detailBinding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(detailBinding.root)
-
-        detailPresenterImpl.attachView(this)
-        intent.getStringExtra(URL_KEY)?.let { detailPresenterImpl.getData(it) }
+        detailPresenter.getData(intent.getStringExtra(URL_KEY) ?: "")
     }
 
     override fun show(film: Film) = detailBinding.run {
