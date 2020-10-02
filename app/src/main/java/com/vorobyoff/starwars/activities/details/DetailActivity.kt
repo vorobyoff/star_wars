@@ -14,6 +14,7 @@ class DetailActivity : MvpAppCompatActivity(), DetailView {
     @InjectPresenter
     lateinit var detailPresenter: DetailPresenter
     private lateinit var detailBinding: ActivityDetailBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         detailBinding = ActivityDetailBinding.inflate(layoutInflater)

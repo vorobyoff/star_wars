@@ -5,4 +5,5 @@
     <string name="director">Directors:</string>
     <string name="producer">Producers:</string>
     <string name="realise_date">Realise date:</string>
+    <string name="favorite_films">Favorite films</string>
 </resources>
