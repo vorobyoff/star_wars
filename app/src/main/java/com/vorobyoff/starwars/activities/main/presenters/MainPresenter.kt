@@ -35,12 +35,7 @@ class MainPresenter(context: Context) : MvpPresenter<MainView>() {
                     response: Response<FilmsResponse>
                 ) {
                     if (response.isSuccessful) {
-                        val filmsResponse = response.body()
-                        filmsResponse?.let { res ->
-                            res.results.forEach { films += it }
-                            films.sort()
-                            viewState.setFilms(films)
-                        }
+                        response.body()?.let { viewState.setFilms(it.results.sorted()) }
                     }
                 }
 
@@ -50,4 +45,6 @@ class MainPresenter(context: Context) : MvpPresenter<MainView>() {
     }
 
     fun saveFilm(film: Film) = GlobalScope.launch { repository.insert(film) }
+
+    fun deleteFilm(film: Film) = GlobalScope.launch { repository.delete(film) }
 }

@@ -55,6 +55,5 @@
         android:gravity="center"
         android:textColor="@android:color/black"
         android:textSize="18sp"
-        android:textStyle="italic"
-        tools:text="Opening crawl" />
+        android:textStyle="italic" />
 </LinearLayout>

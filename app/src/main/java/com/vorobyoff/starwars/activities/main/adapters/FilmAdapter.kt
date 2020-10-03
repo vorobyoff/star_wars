@@ -1,36 +1,54 @@
 package com.vorobyoff.starwars.activities.main.adapters
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.vorobyoff.starwars.databinding.FilmItemBinding
-import com.vorobyoff.starwars.models.Film
+import com.vorobyoff.starwars.R
 import java.util.*
 
-class FilmAdapter(
-    private val onItemClick: (url: String) -> Unit,
-    private val onItemSwipe: (film: Film) -> Unit
-) : RecyclerView.Adapter<FilmHolder>(), ItemTouchHelperAdapter {
-    private val films: MutableList<Film> = LinkedList()
+abstract class FilmAdapter<T>(
+    private var onItemClickListener: ((data: T) -> Unit)?,
+    private inline val onItemSwipeListener: ((data: T) -> Unit)?
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), ItemTouchHelperAdapter {
+    private var items: List<T> = LinkedList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        FilmHolder(FilmItemBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+        getViewHolder(
+            LayoutInflater.from(parent.context).inflate(viewType, parent, false),
+            viewType
+        )
 
-    override fun onBindViewHolder(holder: FilmHolder, position: Int) = holder.run {
-        bind(films[position])
-        itemView.setOnClickListener { onItemClick(films[position].url) }
-    }
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) =
+        (holder as Binder<T>).bind(items[position], onItemClickListener)
 
-    override fun getItemCount() = films.count()
+    override fun getItemCount() = items.count()
+
+    override fun getItemViewType(position: Int) = getLayoutId(position, items[position])
 
     override fun onItemTouch(position: Int) {
-        onItemSwipe(films[position])
-        notifyItemChanged(position)
+        onItemSwipeListener?.invoke(items[position])
+        when (getItemViewType(position)) {
+            R.layout.film_item -> notifyItemChanged(position)
+            R.layout.favorite_film_item -> notifyItemRemoved(position)
+        }
     }
 
-    fun setFilms(data: List<Film>) {
-        films.clear()
-        films.addAll(data)
+    protected abstract fun getLayoutId(position: Int, objects: T): Int
+
+    protected open fun getViewHolder(view: View, viewType: Int) =
+        ViewHolderFactory.create(view, viewType)
+
+    fun update(items: List<T>) {
+        this.items = items.toMutableList()
         notifyDataSetChanged()
+    }
+
+    internal interface Binder<T> {
+        fun bind(data: T, clickListener: ((data: T) -> Unit)?)
+    }
+
+    interface OnItemClickListener<T> {
+        fun onItemClick(data: T)
     }
 }

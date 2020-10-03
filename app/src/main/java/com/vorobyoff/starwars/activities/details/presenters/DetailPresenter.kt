@@ -18,10 +18,7 @@ class DetailPresenter : MvpPresenter<DetailView>() {
 
             NetworkService.getSWApi()?.getFilm(validUrl)?.enqueue(object : Callback<Film> {
                 override fun onResponse(call: Call<Film>, response: Response<Film>) {
-                    if (response.isSuccessful) {
-                        val film = response.body()
-                        film?.let { viewState.show(it) }
-                    }
+                    if (response.isSuccessful) response.body()?.let { viewState.show(it) }
                 }
 
                 override fun onFailure(call: Call<Film>, t: Throwable) {}

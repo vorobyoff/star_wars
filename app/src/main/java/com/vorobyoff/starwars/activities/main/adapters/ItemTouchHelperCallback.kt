@@ -4,7 +4,8 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.ItemTouchHelper.START
 import androidx.recyclerview.widget.RecyclerView
 
-class ItemTouchHelperCallback(private val adapter: FilmAdapter) : ItemTouchHelper.Callback() {
+class ItemTouchHelperCallback(private val adapter: ItemTouchHelperAdapter) :
+    ItemTouchHelper.Callback() {
     override fun getMovementFlags(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) =
         makeMovementFlags(0, START)
 

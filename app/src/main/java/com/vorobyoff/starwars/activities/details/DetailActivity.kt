@@ -13,8 +13,8 @@ import moxy.presenter.InjectPresenter
 class DetailActivity : MvpAppCompatActivity(), DetailView {
     @InjectPresenter
     lateinit var detailPresenter: DetailPresenter
-    private lateinit var detailBinding: ActivityDetailBinding
 
+    private lateinit var detailBinding: ActivityDetailBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         detailBinding = ActivityDetailBinding.inflate(layoutInflater)
@@ -33,6 +33,7 @@ class DetailActivity : MvpAppCompatActivity(), DetailView {
 
     companion object {
         private const val URL_KEY = "url_key"
+
         fun showDetail(context: Context, url: String): Intent {
             val intent = Intent(context, DetailActivity::class.java)
             return intent.putExtra(URL_KEY, url)

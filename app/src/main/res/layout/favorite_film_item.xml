@@ -3,12 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_margin="8dp"
     android:background="@android:color/white"
-    app:cardCornerRadius="16dp">
+    app:cardCornerRadius="16dp"
+    app:cardMaxElevation="4dp"
+    app:contentPadding="8dp">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/title_text_view"
@@ -16,5 +20,19 @@
             android:layout_height="wrap_content"
             android:textColor="@android:color/black"
             android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/episode_id_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/episode"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/release_date_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/realise_date"
+            android:textSize="14sp" />
     </LinearLayout>
 </androidx.cardview.widget.CardView>
