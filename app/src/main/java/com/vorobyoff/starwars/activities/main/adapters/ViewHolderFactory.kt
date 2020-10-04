@@ -17,8 +17,7 @@ object ViewHolderFactory {
         }
     }
 
-    class FilmViewHolder(view: View) :
-        RecyclerView.ViewHolder(view), FilmAdapter.Binder<Film> {
+    class FilmViewHolder(view: View) : RecyclerView.ViewHolder(view), Adapter.Binder<Film> {
         override fun bind(data: Film, clickListener: ((data: Film) -> Unit)?) {
             itemView.apply {
                 item_title_text_view.text = data.title
@@ -31,8 +30,7 @@ object ViewHolderFactory {
         }
     }
 
-    class FavoriteFilmViewHolder(view: View) :
-        RecyclerView.ViewHolder(view), FilmAdapter.Binder<Film> {
+    class FavoriteFilmViewHolder(view: View) : RecyclerView.ViewHolder(view), Adapter.Binder<Film> {
         override fun bind(data: Film, clickListener: ((data: Film) -> Unit)?) {
             itemView.apply {
                 title_text_view.text = data.title

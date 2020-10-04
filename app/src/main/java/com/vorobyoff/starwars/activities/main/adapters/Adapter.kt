@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.vorobyoff.starwars.R
 import java.util.*
 
-abstract class FilmAdapter<T>(
+abstract class Adapter<T>(
     private var onItemClickListener: ((data: T) -> Unit)?,
     private inline val onItemSwipeListener: ((data: T) -> Unit)?
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), ItemTouchHelperAdapter {

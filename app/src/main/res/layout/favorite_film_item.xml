@@ -14,21 +14,21 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/title_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@android:color/black"
             android:textSize="18sp" />
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/episode_id_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/episode"
             android:textSize="14sp" />
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/release_date_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

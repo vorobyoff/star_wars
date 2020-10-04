@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.vorobyoff.starwars.R
 import com.vorobyoff.starwars.activities.details.DetailActivity
-import com.vorobyoff.starwars.activities.main.adapters.FilmAdapter
+import com.vorobyoff.starwars.activities.main.adapters.Adapter
 import com.vorobyoff.starwars.activities.main.adapters.ItemTouchHelperCallback
 import com.vorobyoff.starwars.activities.main.presenters.MainPresenter
 import com.vorobyoff.starwars.activities.main.presenters.MainView
@@ -24,16 +24,18 @@ import moxy.presenter.ProvidePresenter
 class MainActivity : MvpAppCompatActivity(), MainView {
     @InjectPresenter
     lateinit var presenter: MainPresenter
-    private lateinit var dialog: BottomSheetDialog
     private lateinit var binding: ActivityMainBinding
-    private lateinit var filmAdapter: FilmAdapter<Film>
-    private var favoriteFilmsAdapter: FilmAdapter<Film>? = null
+    private lateinit var dialog: BottomSheetDialog
+    private lateinit var filmAdapter: Adapter<Film>
+    private var favoriteFilmsAdapter: Adapter<Film>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setSupportActionBar(MainActionBarBinding.inflate(layoutInflater).root)
+
+        dialog = BottomSheetDialog(applicationContext)
 
         binding.apply {
             favoriteFilmsButton.setOnClickListener { dialog.show() }
@@ -78,14 +80,13 @@ class MainActivity : MvpAppCompatActivity(), MainView {
             isClickable = true
         }
 
-        dialog = BottomSheetDialog(applicationContext)
         val bottomSheetView = BottomSheetBinding.inflate(layoutInflater).root
         dialog.setContentView(bottomSheetView)
 
         bottomSheetView.favorite_films_list.apply {
             favoriteFilmsAdapter = getFavoriteFilmsAdapter
             layoutManager = LinearLayoutManager(applicationContext, RecyclerView.VERTICAL, false)
-            ItemTouchHelper(ItemTouchHelperCallback(favoriteFilmsAdapter as FilmAdapter<Film>))
+            ItemTouchHelper(ItemTouchHelperCallback(favoriteFilmsAdapter as Adapter<Film>))
                 .attachToRecyclerView(this)
             addItemDecoration(ItemDecoration(4))
             adapter = favoriteFilmsAdapter
@@ -93,14 +94,14 @@ class MainActivity : MvpAppCompatActivity(), MainView {
         }
     }
 
-    private val getFilmAdapter = object : FilmAdapter<Film>(
+    private val getFilmAdapter = object : Adapter<Film>(
         { startActivity(DetailActivity.showDetail(applicationContext, it.url)) },
         { presenter.insert(it) }
     ) {
         override fun getLayoutId(position: Int, objects: Film) = R.layout.film_item
     }
 
-    private val getFavoriteFilmsAdapter = object : FilmAdapter<Film>(
+    private val getFavoriteFilmsAdapter = object : Adapter<Film>(
         { startActivity(DetailActivity.showDetail(applicationContext, it.url)) },
         { presenter.delete(it) }
     ) {
