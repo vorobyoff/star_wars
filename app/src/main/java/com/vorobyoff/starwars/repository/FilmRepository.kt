@@ -8,7 +8,7 @@ class FilmRepository(private val dao: FilmDao) {
 
     suspend fun insert(vararg films: Film) = dao.insert(*films)
 
-    suspend fun delete() = dao.delete()
-
     suspend fun delete(film: Film) = dao.delete(film)
+
+    suspend fun delete() = dao.delete()
 }

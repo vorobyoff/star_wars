@@ -13,19 +13,15 @@ abstract class FilmRoomDatabase : RoomDatabase() {
     companion object {
         @Volatile
         private var INSTANCE: FilmRoomDatabase? = null
-        private const val FILM_DB_NAME = "film_database"
 
-        fun getDatabase(context: Context): FilmRoomDatabase {
-            val tempInstance = INSTANCE
-            if (tempInstance != null) return tempInstance
-            synchronized(this) {
+        fun getDatabase(applicationContext: Context): FilmRoomDatabase {
+            return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
-                    context.applicationContext,
-                    FilmRoomDatabase::class.java,
-                    FILM_DB_NAME
-                ).build()
+                    applicationContext, FilmRoomDatabase::class.java, "film_database"
+                ).fallbackToDestructiveMigration().build()
+
                 INSTANCE = instance
-                return instance
+                instance
             }
         }
     }
