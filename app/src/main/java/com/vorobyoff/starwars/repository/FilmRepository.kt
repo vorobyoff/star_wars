@@ -6,7 +6,7 @@ import com.vorobyoff.starwars.models.Film
 class FilmRepository(private val dao: FilmDao) {
     val data: LiveData<List<Film>> = dao.get()
 
-    suspend fun insert(vararg films: Film) = dao.insert(*films)
+    suspend fun insert(film: Film) = dao.insert(film)
 
     suspend fun delete(film: Film) = dao.delete(film)
 

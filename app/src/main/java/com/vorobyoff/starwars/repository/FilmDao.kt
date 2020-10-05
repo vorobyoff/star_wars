@@ -7,7 +7,7 @@ import com.vorobyoff.starwars.models.Film
 @Dao
 interface FilmDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insert(vararg films: Film)
+    suspend fun insert(film: Film)
 
     @Query("SELECT * FROM films_table ORDER BY title ASC")
     fun get(): LiveData<List<Film>>
