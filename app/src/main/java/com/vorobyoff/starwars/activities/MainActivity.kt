@@ -36,7 +36,7 @@ class MainActivity : MvpAppCompatActivity(), MainView {
         setContentView(binding.root)
         setSupportActionBar(MainActionBarBinding.inflate(layoutInflater).root)
 
-        dialog = BottomSheetDialog(this@MainActivity)
+        dialog = BottomSheetDialog(this@MainActivity, R.style.BottomSheetTheme)
 
         binding.apply {
             favoriteFilmsButton.setOnClickListener { dialog.show() }
