@@ -14,10 +14,10 @@ abstract class FilmRoomDatabase : RoomDatabase() {
         @Volatile
         private var INSTANCE: FilmRoomDatabase? = null
 
-        fun getDatabase(applicationContext: Context): FilmRoomDatabase {
+        fun getDatabase(context: Context): FilmRoomDatabase {
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
-                    applicationContext, FilmRoomDatabase::class.java, "film_database"
+                    context.applicationContext, FilmRoomDatabase::class.java, "film_database"
                 ).fallbackToDestructiveMigration().build()
 
                 INSTANCE = instance

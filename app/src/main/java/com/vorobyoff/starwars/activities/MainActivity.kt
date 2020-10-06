@@ -14,6 +14,8 @@ import com.vorobyoff.starwars.databinding.BottomSheetBinding
 import com.vorobyoff.starwars.databinding.MainActionBarBinding
 import com.vorobyoff.starwars.models.Film
 import com.vorobyoff.starwars.presenters.MainPresenter
+import com.vorobyoff.starwars.repository.FilmRepository
+import com.vorobyoff.starwars.repository.FilmRoomDatabase
 import com.vorobyoff.starwars.views.MainView
 import kotlinx.android.synthetic.main.bottom_sheet.view.*
 import moxy.MvpAppCompatActivity
@@ -37,6 +39,7 @@ class MainActivity : MvpAppCompatActivity(), MainView {
         dialog = BottomSheetDialog(this@MainActivity)
 
         binding.apply {
+            favoriteFilmsButton.setOnClickListener { dialog.show() }
             filmsRecyclerView.apply {
                 filmAdapter = getFilmAdapter
                 layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
@@ -49,23 +52,30 @@ class MainActivity : MvpAppCompatActivity(), MainView {
 
         presenter.getFilms()
         presenter.favoriteFilms.observe(this@MainActivity, { films ->
-            when (true) {
-                films.isNullOrEmpty() -> {
-                    binding.favoriteFilmsButton.apply {
-                        visibility = View.GONE
-                        isClickable = false
-                        dialog.dismiss()
-                        return@observe
-                    }
+            if (films.isNullOrEmpty()) {
+                binding.favoriteFilmsButton.apply {
+                    visibility = View.GONE
+                    isClickable = false
+                    dialog.dismiss()
+                    return@observe
                 }
-                favoriteFilmsAdapter == null -> createBottomSheet()
+            } else {
+                if (favoriteFilmsAdapter == null) createBottomSheet()
+                binding.favoriteFilmsButton.apply {
+                    visibility = View.VISIBLE
+                    isClickable = true
+                }
             }
+
             favoriteFilmsAdapter?.update(films)
         })
     }
 
     @ProvidePresenter
-    fun provideMainPresenter(): MainPresenter = MainPresenter(applicationContext)
+    fun provideMainPresenter(): MainPresenter {
+        val dao = FilmRoomDatabase.getDatabase(this@MainActivity).filmDao()
+        return MainPresenter(FilmRepository(dao))
+    }
 
     override fun set(films: List<Film>) = filmAdapter.update(films)
 
@@ -81,12 +91,6 @@ class MainActivity : MvpAppCompatActivity(), MainView {
             addItemDecoration(ItemDecoration(4))
             adapter = favoriteFilmsAdapter
             setHasFixedSize(true)
-        }
-
-        binding.favoriteFilmsButton.apply {
-            setOnClickListener { dialog.show() }
-            visibility = View.VISIBLE
-            isClickable = true
         }
     }
 

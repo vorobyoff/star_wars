@@ -43,7 +43,8 @@ abstract class Adapter<T>(
         ViewHolderFactory.create(view, viewType)
 
     fun update(items: List<T>) {
-        this.items = items as MutableList<T>
+        this.items.clear()
+        this.items.addAll(items)
         notifyDataSetChanged()
     }
 
