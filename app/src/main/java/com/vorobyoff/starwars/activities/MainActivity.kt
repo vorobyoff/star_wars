@@ -25,20 +25,21 @@ import moxy.presenter.ProvidePresenter
 class MainActivity : MvpAppCompatActivity(), MainView {
     @InjectPresenter
     lateinit var presenter: MainPresenter
-    private lateinit var binding: ActivityMainBinding
+    private lateinit var mainBinding: ActivityMainBinding
+    private lateinit var bottomSheetBinding: BottomSheetBinding
     private lateinit var dialog: BottomSheetDialog
     private lateinit var filmAdapter: Adapter<Film>
     private var favoriteFilmsAdapter: Adapter<Film>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        mainBinding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(mainBinding.root)
         setSupportActionBar(MainActionBarBinding.inflate(layoutInflater).root)
 
         dialog = BottomSheetDialog(this@MainActivity, R.style.BottomSheetTheme)
 
-        binding.apply {
+        mainBinding.apply {
             favoriteFilmsButton.setOnClickListener { dialog.show() }
             filmsRecyclerView.apply {
                 filmAdapter = getFilmAdapter
@@ -53,7 +54,7 @@ class MainActivity : MvpAppCompatActivity(), MainView {
         presenter.getFilms()
         presenter.favoriteFilms.observe(this@MainActivity, { films ->
             if (films.isNullOrEmpty()) {
-                binding.favoriteFilmsButton.apply {
+                mainBinding.favoriteFilmsButton.apply {
                     visibility = View.GONE
                     isClickable = false
                     dialog.dismiss()
@@ -61,7 +62,7 @@ class MainActivity : MvpAppCompatActivity(), MainView {
                 }
             } else {
                 if (favoriteFilmsAdapter == null) createBottomSheet()
-                binding.favoriteFilmsButton.apply {
+                mainBinding.favoriteFilmsButton.apply {
                     visibility = View.VISIBLE
                     isClickable = true
                 }
@@ -80,7 +81,8 @@ class MainActivity : MvpAppCompatActivity(), MainView {
     override fun set(films: List<Film>) = filmAdapter.update(films)
 
     private fun createBottomSheet() {
-        val bottomSheetView = BottomSheetBinding.inflate(layoutInflater).root
+        bottomSheetBinding = BottomSheetBinding.inflate(layoutInflater)
+        val bottomSheetView = bottomSheetBinding.root
         dialog.setContentView(bottomSheetView)
 
         bottomSheetView.favorite_films_list.apply {
